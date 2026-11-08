@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Рачковские и Гумненковы</title>
+<style>
+
+@page { size:A4; margin:16mm 17mm; }
+:root {
+ --paper:#ffffff; --canvas:#eeeae6; --ink:#242323; --muted:#625d5a; --line:#d5cfca;
+ --accent:#812f34; --accent-soft:#f8efed; --soft:#f6f3f0;
+ --ok:#285d39; --ok-bg:#eaf2e9; --maybe:#725011; --maybe-bg:#faf0d9;
+ --no:#842f34; --no-bg:#f8e9e7; --family:#344f70; --family-bg:#eaf0f7;
+ --sans:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans","Noto Sans Armenian","Noto Sans Georgian","Noto Sans Hebrew","DejaVu Sans",Arial,sans-serif;
+ --serif:Georgia,"Times New Roman","Noto Serif","Noto Serif Armenian","Noto Serif Georgian","Noto Serif Hebrew","DejaVu Serif","Sylfaen",serif; --tree-gap:40px;
+ color-scheme:light;
+}
+* { box-sizing:border-box; }
+html { scroll-padding-top:24px; }
+body { margin:0; background:var(--canvas); color:var(--ink); font:1.0625rem/1.75 var(--serif); }
+a { color:var(--accent); text-underline-offset:3px; text-decoration-thickness:1px; }
+a:hover { text-decoration-thickness:2px; }
+a:focus-visible,summary:focus-visible,.table-wrap:focus-visible { outline:3px solid var(--accent); outline-offset:5px; }
+.report-shell { max-width:1180px; margin:32px auto; background:var(--paper); border-top:7px solid var(--ink); }
+.report-topline { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px 20px; padding:17px 52px; border-bottom:1px solid var(--ink); color:var(--muted); font:600 .75rem/1.5 var(--sans); text-transform:none; letter-spacing:.12em; }
+.report-header { padding:40px 52px 32px; border-bottom:1px solid var(--ink); }
+.report-intro { display:grid; grid-template-columns:minmax(0,1.7fr) minmax(0,1fr); gap:0 48px; align-items:start; }
+.eyebrow { margin:0 0 10px; grid-column:1; font:600 .75rem/1.5 var(--sans); letter-spacing:.16em; text-transform:none; color:var(--accent); }
+h1 { overflow-wrap:anywhere; grid-column:1; font:400 clamp(3rem,7vw,5.75rem)/1.03 var(--serif); letter-spacing:normal; margin:0 0 16px; text-wrap:balance; }
+.subtitle { grid-column:1; font:1.125rem/1.55 var(--serif); max-width:42ch; color:var(--muted); margin:0 0 24px; }
+.report-meta { grid-column:2; grid-row:2/4; margin:6px 0 0; display:grid; gap:16px; padding-left:24px; border-left:1px solid var(--line); font:.8125rem/1.7 var(--sans); }
+.report-meta dt { font:600 .75rem/1.5 var(--sans); text-transform:none; letter-spacing:.06em; color:var(--muted); margin:0 0 3px; }
+.report-meta dd { margin:0; }
+.demo-note { grid-column:1/-1; padding:12px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); font:.75rem/1.65 var(--sans); color:var(--muted); }
+.demo-note strong { color:var(--ink); }
+.family-tree { margin:30px auto 0; width:100%; max-width:780px; min-width:0; }
+.tree-heading { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px 20px; margin-bottom:16px; }
+.tree-heading h2 { font:400 1.75rem/1.3 var(--serif); color:var(--ink); letter-spacing:-.025em; border:0; padding:0; margin:0; }
+.tree-heading>span { color:var(--muted); font:.75rem/1.5 var(--sans); }
+.tree-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--tree-gap); }
+.person-card { min-width:0; overflow-wrap:anywhere; display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 12px; padding:10px 14px 12px; border:0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--paper); text-decoration:none; transition:background-color 160ms ease; }
+a.person-card:hover { background:var(--accent-soft); }
+.person-role { grid-column:1/-1; color:var(--muted); font:600 .75rem/1.4 var(--sans); letter-spacing:.07em; text-transform:none; }
+.person-name { grid-column:1/-1; color:var(--ink); font:400 1.375rem/1.3 var(--serif); letter-spacing:normal; overflow-wrap:anywhere; }
+.person-years { color:var(--muted); font:.75rem/1.6 var(--sans); font-variant-numeric:tabular-nums; }
+.person-status { color:var(--accent); font:600 .75rem/1.6 var(--sans); }
+.person-card.subject { background:var(--accent-soft); border-top:3px solid var(--accent); border-bottom:1px solid var(--accent); padding-top:8px; }
+.person-card.subject .person-role { color:var(--accent); }
+.person-card.subject .person-status { grid-column:1/-1; font-weight:400; color:var(--muted); }
+.spouse-group { position:relative; }
+.spouse-group::before { content:""; position:absolute; top:50%; left:calc(50% - var(--tree-gap)/2); width:var(--tree-gap); height:4px; border-top:1px solid var(--accent); border-bottom:1px solid var(--accent); }
+.tree-connectors { position:relative; width:100%; height:24px; color:var(--accent); }
+.tree-connectors::before { content:""; position:absolute; top:0; bottom:0; left:calc(25% - var(--tree-gap)/4); border-left:1px solid currentColor; }
+.mother-branch { position:absolute; top:0; left:calc(25% - var(--tree-gap)/4); width:calc(50% + var(--tree-gap)/2); height:10px; border-right:1px solid currentColor; border-bottom:1px solid currentColor; }
+.child-row .person-card { grid-column:1; }
+.tree-caption { font:.75rem/1.65 var(--sans); color:var(--muted); margin-top:14px; }
+.tree-caption span { display:block; margin-top:4px; }
+.report-nav { display:flex; flex-wrap:wrap; gap:4px 32px; margin:0 52px; padding:6px 0; border-bottom:1px solid var(--ink); font:600 .75rem/1.5 var(--sans); text-transform:none; letter-spacing:.06em; }
+.report-nav a { min-height:44px; display:inline-flex; align-items:center; text-decoration:none; }
+.report-nav a:hover { text-decoration:underline; }
+main { max-width:900px; padding:36px 52px 44px; margin:0 auto; }
+h2 { margin:44px 0 18px; padding:14px 0 0; border-top:1px solid var(--ink); color:var(--ink); font:400 clamp(1.625rem,3vw,2rem)/1.3 var(--serif); letter-spacing:-.025em; break-after:avoid; text-wrap:balance; }
+h3 { margin:28px 0 14px; color:var(--accent); font:600 .875rem/1.5 var(--sans); letter-spacing:.04em; }
+p { margin:0 0 18px; }
+p,li,td { overflow-wrap:break-word; }
+main>p { max-width:72ch; }
+.lead { padding:22px 24px 24px; background:var(--soft); border-top:3px solid var(--accent); border-bottom:1px solid var(--line); margin-bottom:24px; }
+.lead h2 { margin:0 0 14px; padding:0; border:0; color:var(--accent); font:600 .75rem/1.5 var(--sans); text-transform:none; letter-spacing:.12em; }
+.lead ul { margin:0; padding-left:18px; }
+.lead li { margin-bottom:12px; }
+.lead li:last-child { margin-bottom:0; }
+.tag { display:inline-block; max-width:100%; padding:2px 7px; margin:2px 0; border-radius:2px; font:600 .75rem/1.5 var(--sans); white-space:nowrap; }
+.ok { color:var(--ok); background:var(--ok-bg); }
+.maybe { color:var(--maybe); background:var(--maybe-bg); }
+.no { color:var(--no); background:var(--no-bg); }
+.fam { color:var(--family); background:var(--family-bg); }
+.evidence-guide { border-bottom:1px solid var(--line); color:var(--muted); margin:0 0 30px; font:.8125rem/1.7 var(--sans); }
+.evidence-guide h3 { padding:12px 0 0; margin:0; font:600 .8125rem/1.7 var(--sans); color:var(--ink); letter-spacing:normal; }
+.legend { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 24px; padding:8px 0 18px; }
+.legend .tag { display:table; margin-bottom:4px; }
+.table-wrap { max-width:100%; overflow-x:auto; margin:16px 0 20px; }
+table { width:100%; border-collapse:collapse; font:.875rem/1.65 var(--sans); }
+th,td { text-align:start; vertical-align:top; border-bottom:1px solid var(--line); padding:12px 16px 12px 0; }
+th { color:var(--muted); font:600 .75rem/1.5 var(--sans); text-transform:none; letter-spacing:.04em; border-bottom:1px solid var(--ink); }
+th:last-child,td:last-child { padding-right:0; }
+td.d { width:18%; min-width:90px; }
+td.t { width:17%; }
+tr { break-inside:avoid; }
+tr:target { background:var(--accent-soft); }
+blockquote { margin:28px 0; padding:2px 0 2px 20px; border-left:2px solid var(--accent); color:var(--accent); font:italic 1.375rem/1.5 var(--serif); }
+ol,ul { margin:0 0 22px; padding-left:22px; }
+li { margin-bottom:10px; }
+.small { color:var(--muted); font:.8125rem/1.65 var(--sans); }
+.src li { color:var(--muted); font:.8125rem/1.75 var(--sans); margin-bottom:18px; padding-left:4px; }
+.src li b { color:var(--ink); }
+:target { scroll-margin-top:24px; }
+.report-footer { display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; padding:20px 52px; border-top:1px solid var(--ink); color:var(--muted); font:.75rem/1.5 var(--sans); }
+.skip-link { position:absolute; top:8px; left:8px; padding:12px 16px; z-index:10; background:var(--paper); transform:translateY(-200%); font:1rem/1.5 var(--sans); }
+.skip-link:focus { transform:translateY(0); }
+@media(max-width:959px) {
+ .report-shell { margin:16px; }
+ .report-header { padding:32px; }
+ .report-topline,.report-footer { padding-left:32px; padding-right:32px; }
+ .report-nav { margin-left:32px; margin-right:32px; }
+ .report-intro { gap:0 24px; }
+ .person-card { display:flex; flex-direction:column; gap:4px; }
+ main { padding:32px; }
+}
+@media(max-width:600px) {
+ :root { --tree-gap:20px; }
+ body { font-size:1rem; }
+ .report-shell { margin:0; border-top-width:5px; }
+ .report-topline { padding:13px 20px; font-size:.75rem; letter-spacing:.06em; }
+ .report-header { padding:24px 20px; }
+ .report-intro { display:block; }
+ h1 { font-size:3rem; }
+ .subtitle { font-size:1rem; margin-bottom:18px; }
+ .report-meta { display:flex; flex-wrap:wrap; gap:10px 24px; padding:0; margin:0 0 18px; border:0; }
+ .demo-note { font-size:.75rem; }
+ .family-tree { margin-top:24px; }
+ .tree-heading { align-items:start; }
+ .tree-heading h2 { font-size:1.5rem; }
+ .person-card { padding:10px; }
+ .person-name { font-size:1.125rem; }
+ .person-role { letter-spacing:.03em; }
+ .person-card.subject { padding-top:8px; }
+ .tree-connectors { height:22px; }
+ .tree-caption { font-size:.75rem; }
+ .report-nav { margin:0 20px; gap:4px 20px; letter-spacing:.02em; }
+ main { padding:24px 20px; }
+ .lead { padding:20px; }
+ .legend { grid-template-columns:1fr; }
+ h2 { margin-top:36px; }
+ table { min-width:560px; }
+ th,td { padding-right:12px; }
+ .report-footer { padding:20px; }
+}
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none !important; scroll-behavior:auto !important; } }
+@media print {
+ body { background:white; font-size:10.5pt; }
+ .report-shell { max-width:none; margin:0; border:0; }
+ .report-topline,.report-footer { padding:8pt 0; font-size:8pt; }
+ .report-header { padding:16pt 0; }
+ .report-intro { gap:0 24pt; }
+ h1 { font-size:34pt; }
+ .subtitle { font-size:11pt; }
+ .demo-note { font-size:8pt; }
+ .family-tree { max-width:145mm; margin-top:18pt; break-inside:avoid; }
+ .person-card { padding:8pt; }
+ .person-name { font-size:12pt; }
+ .person-role,.person-years,.person-status,.tree-caption { font-size:8pt; }
+ .report-nav,.skip-link { display:none; }
+ main { padding:0; }
+ h2 { font-size:16pt; margin-top:20pt; }
+ .table-wrap { overflow:visible; }
+ table { min-width:0; font-size:8.5pt; }
+ th { font-size:8pt; }
+ .evidence-guide { break-inside:avoid; font-size:8.5pt; }
+ .legend { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ a { color:inherit; }
+ .person-card.subject { background:white; }
+}
+/* Local font fallbacks retain multilingual text without network requests. */
+bdi { unicode-bidi:isolate; }
+html :lang(ar), html :lang(he), html :lang(yi), html :lang(ka), html :lang(hy) { letter-spacing:normal; }
+.report-note { grid-column:1/-1; color:var(--muted); font:.8125rem/1.65 var(--sans); }
+.tree-connectors.uncertain::before { border-left-style:dashed; }
+.mother-branch.uncertain { border-right-style:dashed; border-bottom-style:dashed; }
+.spouse-group.uncertain::before { border-top-style:dashed; border-bottom-style:dashed; }
+.photos { display:flex; flex-wrap:wrap; gap:16px; align-items:flex-start; }
+.photos figure { margin:0; }
+figure img { display:block; max-width:100%; height:auto; }
+figcaption { font:.8125rem/1.65 var(--sans); color:var(--muted); margin-top:8px; }
+.docfig { margin:24px 0; break-inside:avoid; }
+.docfig img { width:100%; max-height:225mm; object-fit:contain; border:1px solid var(--line); }
+@media screen { .pb { break-before:auto; } .docfig img { max-height:none; } }
+@media print { .pb { break-before:page; } .tag { white-space:normal; } }
+
+.person-card .person-years,.person-card .person-status { grid-column:1/-1; }
+
+/* Gallery */
+.gallery { margin:28px 0 8px; }
+.gallery-head { font:600 .8125rem/1.5 var(--sans); letter-spacing:.06em; color:var(--accent); margin:0 0 12px; }
+.gallery-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+.shot { margin:0; }
+.shot img { display:block; width:100%; aspect-ratio:4/5; object-fit:cover; background:var(--soft); border:1px solid var(--line); }
+.shot figcaption { margin-top:6px; font:.8125rem/1.5 var(--sans); color:var(--muted); }
+.shot figcaption b { color:var(--ink); font-weight:600; }
+.gallery .small { margin-top:12px; }
+/* Phones */
+@media (max-width:600px) {
+ h1 { font-size:2.35rem; line-height:1.08; }
+ .eyebrow,.report-topline { letter-spacing:.04em; }
+ .report-nav { flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:4px 18px; }
+ .report-nav a { white-space:nowrap; }
+ .tree-row,.tree-row.spouse-group { grid-template-columns:1fr; gap:0; }
+ .spouse-group::before { display:none; }
+ .spouse-group > .person-card + .person-card { border-top:0; padding-top:2px; padding-left:28px; }
+ .spouse-group > .person-card + .person-card .person-role::before { content:"и "; color:var(--accent); }
+ .tree-row:not(.spouse-group) > .person-card + .person-card { margin-top:10px; }
+ .tree-connectors { height:18px; }
+ .tree-connectors::before { left:22px; }
+ .person-name { font-size:1.1875rem; }
+ .gallery-grid { gap:8px; }
+ .shot figcaption { font-size:.75rem; }
+ .table-wrap { overflow-x:visible; }
+ table { min-width:0; }
+ table thead { display:none; }
+ table, table tbody, table tr, table td { display:block; width:auto; }
+ table tr { padding:12px 0; border-bottom:1px solid var(--line); }
+ table td { border:0; padding:2px 0; }
+ table td.d, table td.t { width:auto; min-width:0; }
+ table td[data-label]:not([data-label=""])::before { content:attr(data-label); display:block; font:600 .6875rem/1.6 var(--sans); letter-spacing:.05em; color:var(--muted); }
+ table td:first-child { font-weight:600; }
+ .lead { padding:18px 16px; }
+ main { padding-left:16px; padding-right:16px; }
+ .report-header { padding-left:16px; padding-right:16px; }
+ .report-nav { margin-left:16px; margin-right:16px; }
+ .report-topline,.report-footer { padding-left:16px; padding-right:16px; }
+}
+@media (min-width:601px) and (max-width:900px) {
+ .gallery-grid { gap:10px; }
+}
+
+[hidden] { display:none !important; }
+.docs-group { margin-top:34px; }
+.doc { margin:18px 0 26px; display:grid; gap:8px; }
+.doc-crop { display:block; border:1px solid var(--line); background:var(--soft); cursor:zoom-in; }
+.doc-crop img { display:block; width:100%; height:auto; }
+.doc figcaption { font:.875rem/1.6 var(--sans); color:var(--muted); }
+.doc figcaption b { color:var(--ink); }
+.doc-links { display:block; margin-top:4px; }
+.doc-ref { color:var(--muted); }
+.imgref { white-space:nowrap; font:.75rem/1 var(--sans); }
+.imgref a { margin-left:6px; }
+.transcript { margin-top:6px; padding:16px 18px; background:var(--soft); border-top:2px solid var(--accent); font:.9375rem/1.65 var(--serif); }
+.transcript-title,.transcript-sub { margin:0 0 10px; font:600 .8125rem/1.5 var(--sans); color:var(--accent); letter-spacing:.04em; }
+.transcript-sub { margin-top:16px; }
+.transcript dl { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.4fr); gap:6px 16px; margin:0; }
+.transcript dt { color:var(--muted); font:.8125rem/1.5 var(--sans); }
+.transcript dd { margin:0; }
+.transcript p { margin:0 0 10px; max-width:70ch; }
+.transcript-sign { font-style:italic; }
+.lb-overlay { position:fixed; inset:0; z-index:60; display:flex; flex-direction:column; background:rgba(12,11,10,.94); padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+.lb-bar { display:flex; align-items:center; gap:8px; padding:10px 16px; color:#f1ece7; font:.875rem/1.4 var(--sans); }
+.lb-bar span { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.lb-bar button { font:600 .8125rem/1 var(--sans); padding:10px 14px; min-height:40px; border:1px solid rgba(255,255,255,.35); background:transparent; color:#f1ece7; border-radius:3px; cursor:pointer; }
+.lb-bar button:focus-visible { outline:2px solid #fff; outline-offset:2px; }
+.lb-stage { flex:1; min-height:0; overflow:auto; display:flex; align-items:center; justify-content:center; padding:0 12px 12px; -webkit-overflow-scrolling:touch; }
+.lb-stage img { max-width:100%; max-height:100%; object-fit:contain; cursor:zoom-in; background:#fff; }
+.lb-stage.zoom { display:block; }
+.lb-stage.zoom img { max-width:none; max-height:none; cursor:zoom-out; }
+@media (max-width:600px) {
+ .transcript dl { grid-template-columns:1fr; gap:0; }
+ .transcript dd { margin-bottom:8px; }
+ .transcript { padding:14px; }
+}
+
+.gap-card { grid-column:1/-1; padding:10px 14px; border:1px dashed var(--accent); background:var(--soft); color:var(--muted); font:.8125rem/1.6 var(--sans); }
+.doc-crop-small { max-width:260px; }
+.doc-crop-card { max-width:440px; }
+.gallery-grid.single { grid-template-columns:minmax(0,300px); }
+.imgref a + a { margin-left:6px; }
+.report-note.interim { padding:10px 14px; border:1px solid var(--accent); background:var(--accent-soft); color:var(--ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper:#1d1b1a; --canvas:#131211; --ink:#ebe5e0; --muted:#a69e98; --line:#3b3633;
+ --accent:#e3989a; --accent-soft:#2d2121; --soft:#23201e;
+ --ok:#93d0a2; --ok-bg:#1c2d21; --maybe:#e5c27c; --maybe-bg:#33291a;
+ --no:#f0a0a0; --no-bg:#392325; --family:#a2bfe2; --family-bg:#1e2836; color-scheme:dark; } }
+:root[data-theme="dark"] { --paper:#1d1b1a; --canvas:#131211; --ink:#ebe5e0; --muted:#a69e98; --line:#3b3633;
+ --accent:#e3989a; --accent-soft:#2d2121; --soft:#23201e;
+ --ok:#93d0a2; --ok-bg:#1c2d21; --maybe:#e5c27c; --maybe-bg:#33291a;
+ --no:#f0a0a0; --no-bg:#392325; --family:#a2bfe2; --family-bg:#1e2836; color-scheme:dark; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#report-content">К тексту отчёта</a>
+<div class="report-shell">
+<div class="report-topline"><span>Семейная история · Исследование</span><span>Промежуточные результаты · 8 ноября 2026</span></div>
+<header class="report-header" id="top">
+  <div class="report-intro">
+    <p class="eyebrow">Семейная история по документам</p>
+    <h1><bdi dir="auto">Рачковские и Гумненковы</bdi></h1>
+    <p class="subtitle">Родители Виктора Николаевича: Николай Степанович Рачковский и Вера Стефановна. Их отцы — Степан Рачковский из Павловичей Сенненского района и Стефан Гумненков из деревни Невзучье под Любавичами. Здесь собрано всё, что удалось найти в открытых источниках за первые сутки поиска.</p>
+    <dl class="report-meta">
+      <div><dt>Период исследования</dt><dd>1758 и 1858–1910 — по описям архивов и справочникам; 1930–1947 — по документам</dd></div>
+      <div><dt>Основания</dt><dd>Документы ЦАМО об учёте потерь («Память народа»), книга «Памяць. Сенненскі раён» (2003), «Открытый список», «Список населённых мест Могилёвской губернии» 1910 года, описи НИАБ и Зонального архива в Орше, Книга памяти мирных жителей Руднянского района, сведения семьи</dd></div>
+    </dl>
+    <p class="report-note interim"><b>Это промежуточный отчёт: здесь всё, что пока накопалось.</b> Многие звенья — версии, а не доказанные факты. Ни один архив ещё не запрашивался, метрические книги обеих деревень в интернете не опубликованы. Ответы семьи на несколько вопросов (в конце страницы) могут быстро подтвердить или опровергнуть главные версии.</p>
+  </div>
+  <figure class="family-tree" aria-labelledby="tree-title" aria-describedby="tree-description">
+    <div class="tree-heading"><h2 id="tree-title">Семейное древо</h2><span>что известно на сегодня</span></div>
+
+    <div class="tree-row spouse-group uncertain">
+      <a class="person-card" href="#stepan">
+        <span class="person-role">Дед по отцу</span>
+        <bdi class="person-name" dir="auto">Степан Рачковский</bdi>
+        <span class="person-years">вероятно, Степан Павлович, 1905 — пропал без вести в 1944</span>
+        <span class="person-status">версия</span>
+      </a>
+      <a class="person-card" href="#stepan">
+        <span class="person-role">Жена Степана Павловича</span>
+        <bdi class="person-name" dir="auto">Татьяна Ивановна Рачковская</bdi>
+        <span class="person-years">жила в Павловичах в 1944–1946</span>
+        <span class="person-status">мать Николая — не проверено</span>
+      </a>
+    </div>
+    <div class="tree-connectors uncertain" aria-hidden="true"></div>
+    <div class="tree-row spouse-group">
+      <a class="person-card" href="#gumnenkov">
+        <span class="person-role">Дед по матери</span>
+        <bdi class="person-name" dir="auto">Стефан Егорович Гумненков</bdi>
+        <span class="person-years">1912 — пропал без вести в 1941</span>
+        <span class="person-status">вероятно</span>
+      </a>
+      <a class="person-card" href="#gumnenkov">
+        <span class="person-role">Жена</span>
+        <bdi class="person-name" dir="auto">Евдокия Андреевна Гумненкова</bdi>
+        <span class="person-years">жила в Невзучье в 1947</span>
+        <span class="person-status">мать Веры — не проверено</span>
+      </a>
+    </div>
+    <div class="tree-connectors uncertain" aria-hidden="true"></div>
+    <div class="tree-row spouse-group">
+      <a class="person-card" href="#parents">
+        <span class="person-role">Отец</span>
+        <bdi class="person-name" dir="auto">Николай Степанович Рачковский</bdi>
+        <span class="person-years">годы не установлены</span>
+        <span class="person-status">по сведениям семьи</span>
+      </a>
+      <a class="person-card" href="#parents">
+        <span class="person-role">Мать</span>
+        <bdi class="person-name" dir="auto">Вера Стефановна</bdi>
+        <span class="person-years">урождённая Гумненкова</span>
+        <span class="person-status">по сведениям семьи</span>
+      </a>
+    </div>
+    <div class="tree-connectors" aria-hidden="true"></div>
+    <div class="tree-row">
+      <a class="person-card subject" href="#parents">
+        <span class="person-role">Сын</span>
+        <bdi class="person-name" dir="auto">Виктор Николаевич Рачковский</bdi>
+        <span class="person-status">с него начат поиск</span>
+      </a>
+    </div>
+    <figcaption class="tree-caption" id="tree-description">Двойная линия обозначает брак, пунктир — звенья без прямого документа. Деды связаны с Николаем и Верой только по отчеству и по деревням, которые назвала семья.</figcaption>
+  </figure>
+</header>
+<nav class="report-nav" aria-label="Разделы отчёта"><a href="#findings">Главное</a><a href="#parents">Николай и Вера</a><a href="#rachkovskie">Рачковские</a><a href="#gumnenkovy">Гумненковы</a><a href="#documents">Документы</a><a href="#chronology">Хронология</a><a href="#next">Что дальше</a><a href="#sources">Источники</a></nav>
+<main id="report-content">
+
+<div class="lead" id="findings">
+  <h2>Главное</h2>
+  <ul>
+    <li><b>Дед по матери — почти наверняка Стефан Егорович Гумненков, 1912 года рождения, из деревни Невзучье (ныне Руднянский район Смоленской области).</b> В 1941 году его призвали в армию; в 1947 году военкомат записал: «считать пропавшим без вести в декабре 1941 г.». Жена — Евдокия Андреевна. Других Стефанов или Степанов Гумненковых из Невзучья в базах нет. <span class="tag ok">по документу</span> <span class="tag maybe">что это дед — вероятно</span></li>
+    <li><b>Дед по отцу — скорее всего Степан Павлович Рачковский, 1905 года рождения, из деревни Трубинино рядом с Павловичами Сенненского района.</b> Призван в июне 1941 года, пропал без вести в 1944-м. Его жена Татьяна Ивановна жила в колхозе «Чырвоная зорька», а этот колхоз был именно в Павловичах. Есть и второй кандидат — Степан Гаврилович Рачковский, 1908 года рождения, из той же деревни, репрессированный в 1930-х. <span class="tag maybe">версия</span></li>
+    <li><b>Обе семьи — крестьяне северо-восточной Беларуси и Смоленщины.</b> Павловичи, Трубинино и Соино в 1910 году относились к Латыговской волости Сенненского уезда Могилёвской губернии и к Покровской церкви в Ходцах. Невзучье — к Любавичской волости Оршанского уезда и к Любавичскому приходу. <span class="tag ok">по справочнику</span></li>
+    <li><b>Глубже — только через архивы.</b> Метрические книги и ревизские сказки этих мест не оцифрованы: их нет ни на FamilySearch, ни на сайтах архивов. Номера нужных дел найдены — они в разделе «Что дальше». <span class="tag no">не установлено</span></li>
+  </ul>
+</div>
+
+<aside class="evidence-guide" aria-labelledby="evidence-guide-title">
+  <h3 id="evidence-guide-title">Как читать метки надёжности</h3>
+  <div class="legend">
+    <div><span class="tag ok">по документу</span> — один прямой документ</div>
+    <div><span class="tag fam">по сведениям семьи</span> — рассказ родственников, документа нет</div>
+    <div><span class="tag maybe">вероятно</span>, <span class="tag maybe">версия</span> — сопоставление, прямого документа нет</div>
+    <div><span class="tag no">не установлено</span> — сведений пока недостаточно</div>
+  </div>
+</aside>
+
+<h2 id="parents">Николай Степанович и Вера Стефановна</h2>
+<p>О самих родителях пока известно только то, что рассказала семья: отец — Николай Степанович Рачковский, мать — Вера Стефановна; дед по отцу — Степан Рачковский из «деревни Павловичи, Сенницкий район», дед по матери — Стефан Гумненков из «деревни Невзучье». <a href="#source-14">[14]</a> <span class="tag fam">по сведениям семьи</span></p>
+<p>В базах о Великой Отечественной войне Николая Степановича Рачковского нет. Скорее всего, он родился после 1927 года и в армию в войну не призывался. В книге памяти Сенненского района среди участников войны от Ходцевского сельсовета его тоже нет. <span class="tag no">не установлено</span></p>
+<p class="small">«Сенницкий район» в семейной записи — по всей видимости, Сенненский: Павловичи есть только там, рядом с деревнями, где жили Рачковские. «Гумненкоф» — та же фамилия Гумненков, так она записывается в документах.</p>
+
+<h2 id="rachkovskie">Рачковские из Павловичей</h2>
+<h3 id="pavlovichi">Павловичи, Трубинино и Соино</h3>
+<p>Деревня Павловичи стоит на озере Саро в Ходцевском сельсовете Сенненского района Витебской области. По «Списку населённых мест Могилёвской губернии» 1910 года, это была деревня Латыговского сельского общества в 11 дворов и 61 жителя; рядом — Трубинино (5 дворов, 30 жителей) и Соино (26 дворов, 160 жителей). Все три деревни относились к православному приходу Покровской церкви в Ходцах. <a href="#source-6">[6]</a> <span class="tag ok">по справочнику</span></p>
+<p>Павловичи известны с 1758 года как центр имения. К середине XIX века крестьяне Павловичей, Соина и Перекопова принадлежали помещику Антону Бржостовскому: в 1866–1869 годах губернское присутствие рассматривало дело о выкупе ими земли у Бржостовского. <a href="#source-7">[7]</a> В начале XX века землёй в Павловичах владели мещане Свистун и Есьман и шляхтичи Ганипровские. <a href="#source-4">[4]</a></p>
+<p>В 1924 году Павловичи ненадолго стали центром сельсовета (с октября того же года центр перенесли в Ходцы). В 1939 году в Павловичи сселили жителей окрестных хуторов и деревень: Галашовки, Курмелево, Логвиново, Торбино, Хабатино, Ляды, Морозовка. <a href="#source-4">[4]</a> Деревня Торбино, по всей видимости, та же, что Трубинино 1910 года. <span class="tag maybe">вероятно</span> После войны здесь был колхоз «Чырвоная зорька». <a href="#source-7">[7]</a> К 2003 году в Павловичах оставалось два двора и один житель. <a href="#source-4">[4]</a><span class="imgref"><a class="lb" href="artifacts/A-0001_pamiac_p601_Pavlovichi_village.png" data-cap="«Памяць. Сенненскі раён», с. 601 — Павловичи">с. 601</a></span></p>
+
+<h3 id="stepan">Степан Павлович Рачковский (1905 — пропал без вести в 1944)</h3>
+<p>В документе Сенненского военкомата, уточняющем потери, записано: «Рачковский Степан Павлович, рядовой, 1905, Сенненский р-н, Ходчанский с/с, д. Трубинина. По установлению заведующего сельсоветом и подтверждению соседей призван Сенненским РВК Витебской обл. в июне 1941 г. Связь прекращена с дня мобилизации». Военкомат счёл его пропавшим без вести (в графе выбытия — август 1944 года). В графе о семье: «жена — Рачковская Татьяна Ивановна», адрес — «Сенненский р-н, Ходчанский с/с, к-з „Чыр[воная] Зорка“». <a href="#source-1">[1]</a><span class="imgref"><a class="lb" href="artifacts/A-0006_row13_crop.png" data-cap="Документ, уточняющий потери, № 13 — Рачковский Степан Павлович">вырезка</a><a class="lb" href="artifacts/full/A-0006_pamyat_Rachkovsky_SP_utochnenie_list9.png" data-cap="Документ, уточняющий потери — лист целиком">лист</a></span> <span class="tag ok">по документу</span></p>
+<p>В книге памяти Сенненского района он значится по деревне Соино: «Рачкоўскі Сцяпан Паўлавіч, рад., прапаў без вестак у жніўні 1944». <a href="#source-4">[4]</a><span class="imgref"><a class="lb" href="artifacts/A-0001_pamiac_p462_Soino.png" data-cap="«Памяць. Сенненскі раён», с. 462 — деревня Соино">с. 462</a></span></p>
+<p>Его вероятный брат — <b>Егор Павлович Рачковский</b>, 1911 года рождения, из деревни Соино: призван в 1941 году, пропал без вести в 1944-м; жена — Акулина Филипповна, тот же колхоз «Чыр[воная] Зорка». <a href="#source-2">[2]</a><span class="imgref"><a class="lb" href="artifacts/A-0008_row9_crop.png" data-cap="Документ, уточняющий потери, № 9 — Рачковский Егор Павлович">вырезка</a><a class="lb" href="artifacts/full/A-0008_pamyat_Rachkovsky_EP_utochnenie.png" data-cap="Документ, уточняющий потери — лист целиком">лист</a></span> В книге памяти он записан и по Павловичам, и по Соину. <a href="#source-4">[4]</a><span class="imgref"><a class="lb" href="artifacts/A-0001_pamiac_p461_Pavlovichi.png" data-cap="«Памяць. Сенненскі раён», с. 461 — деревня Павловичи">с. 461</a></span> <span class="tag maybe">брат — по отчеству</span></p>
+<p><b>Почему он, скорее всего, и есть дед Степан.</b> Семья называет деревню Павловичи; жители Трубинина-Торбина в 1939 году были сселены в Павловичи; колхоз «Чырвоная зорька», где жила его жена, находился в Павловичах. Возраст подходит: сын Николай мог родиться в 1925–1941 годах. Но документа, где Николай Степанович был бы назван его сыном, пока нет. <span class="tag maybe">версия</span></p>
+
+<h3 id="stepan-g">Второй кандидат: Степан Гаврилович Рачковский (1908)</h3>
+<p>В той же деревне жил ещё один Степан Рачковский. Книга памяти Сенненского района пишет: «Рачкоўскі Сцяпан Гаўрылавіч, н. у 1908 у в. Трубіна, калгаснік, асуджаны ў 1932, рэабілітаваны ў 1962». <a href="#source-4">[4]</a><span class="imgref"><a class="lb" href="artifacts/A-0002_pamiac_p119_Rachkovsky_SG.png" data-cap="«Памяць. Сенненскі раён», с. 119 — «Вернутыя імёны»">с. 119</a></span> По «Открытому списку» (данные Управления КГБ по Витебской области), Степан Гаврилович 1908 года рождения из деревни Трубилино Сенненского района работал столяром на витебской фабрике имени Кагановича, был арестован 9 февраля 1938 года и расстрелян 15 марта 1938 года; реабилитирован в 1989 году. <a href="#source-5">[5]</a> Сведения двух источников расходятся (1932 или 1938 год): возможно, это два разных дела. В военных базах Степана Гавриловича нет. <span class="tag maybe">возможная родня</span></p>
+
+<h3>Другие Рачковские этих мест</h3>
+<ul>
+  <li><b>Рачковский Максим Феодосович</b>, 1898, хутор Курмелево Павловичского сельсовета — единоличник, арестован в декабре 1932 года, три года лагерей; реабилитирован в 1989 году. Курмелево в 1939 году сселили в Павловичи. <a href="#source-16">[16]</a></li>
+  <li><b>Рачковская Ксения Афанасьевна</b>, 1908, Малые Павловичи — осуждена в 1930 году тройкой ОГПУ; сведения о ней пришли из УВД Читинской области — по-видимому, семью выслали в Забайкалье. <a href="#source-16">[16]</a></li>
+  <li><b>Рачковский Пётр Филиппович</b>, 1920, деревня Морозовка — партизан отряда имени Щорса; <b>Рачковский Николай Герасимович</b>, 1923, Латыголь — партизан Сенненской бригады; его брат, вероятно, <b>Михаил Герасимович</b>, 1919, пропал без вести в 1941 году. <a href="#source-15">[15]</a> <a href="#source-4">[4]</a></li>
+  <li>В 1939 году в деревню Латыголь Ульяновичского сельсовета сселили и хутор под названием «Рачковского». <a href="#source-4">[4]</a><span class="imgref"><a class="lb" href="artifacts/A-0010_pamiac_p596_Latygol.png" data-cap="«Памяць. Сенненскі раён», с. 596 — Латыголь">с. 596</a></span> На сайте radzima.net есть воспоминание: «переселены рачковские с хутора богатого в 30-х».</li>
+  <li>В годы Первой мировой войны в армии служили Рачковские из Латыговской и Ульяновичской волостей Сенненского уезда — Даниловичи, Федосеевичи и другие; Павла и Степана среди них нет. <a href="#source-11">[11]</a></li>
+</ul>
+<p>Как все эти семьи связаны между собой, пока неизвестно. <span class="tag no">не установлено</span></p>
+
+<h2 id="gumnenkovy">Гумненковы из Невзучья</h2>
+<h3 id="nevzuchye">Невзучье</h3>
+<p>Невзучье стоит в пяти с половиной километрах от Любавичей и в восьми — от Рудни. В 1910 году это была деревня Любавичской волости Оршанского уезда Могилёвской губернии, Хоминского сельского общества, в 26 дворов и 173 жителя, Любавичского православного прихода. <a href="#source-6">[6]</a> <span class="tag ok">по справочнику</span> Рядом лежали Подсосны (24 двора) и Заложье (12 дворов). В 1919 году Любавичскую волость передали в Смоленский уезд, с 1929 года деревня — в Руднянском районе Смоленской области, в Заложском, позже Шубковском сельсовете. <a href="#source-13">[13]</a></p>
+<p>Невзучье было оккупировано с 20 июля 1941 года по 29 сентября 1943 года. В книге памяти мирных жителей района названы расстрелянные жители деревни, в том числе студент Ф. П. Дадыкин (1924) и колхозница А. И. Кляузова (1898). Гумненковых среди мирных жертв нет. <a href="#source-9">[9]</a></p>
+
+<h3 id="gumnenkov">Стефан Егорович Гумненков (1912 — пропал без вести в 1941)</h3>
+<p>В именном списке безвозвратных потерь, который Руднянский военкомат составил в 1947 году, под № 87 записано: «Гумненков Стефан Егорович… 1912, д. Невзучье… Руднянским РВК в 1941 г.… считать пропавшим без вести в декабре 1941 г.»; в графе о родственниках — «жена Гумненкова Евд[окия] Андр[еевна], д. Невзучье». Он есть и в Книге памяти Смоленской области. <a href="#source-3">[3]</a><span class="imgref"><a class="lb" href="artifacts/A-0007_row87_crop.png" data-cap="Именной список Руднянского РВК, № 87 — Гумненков Стефан Егорович">вырезка</a><a class="lb" href="artifacts/full/A-0007_pamyat_Gumnenkov_SE_Rudnya_spisok.png" data-cap="Именной список Руднянского РВК — лист целиком">лист</a></span> <span class="tag ok">по документу</span></p>
+<p>Имя, фамилия, отчество дочери и деревня совпадают с тем, что рассказала семья, а других Стефанов или Степанов Гумненковых из Невзучья в базах нет. Поэтому это, почти наверняка, дед Веры Стефановны по матери — то есть её отец, а Евдокия Андреевна — её мать. Прямого документа о Вере пока нет. <span class="tag maybe">вероятно</span></p>
+
+<h3>Род Гумненковых</h3>
+<p>Гумненковы жили гнездом в соседних деревнях Невзучье, Подсосны (Подсосное) и Чушаи. По военным документам видны ветви Егоровичей, Леоновичей, Ефимовичей, Моисеевичей, Никитовичей и Спиридоновичей. <a href="#source-8">[8]</a></p>
+<ul>
+  <li>Из самого Невзучья: <b>Сергей Моисеевич</b> (1903) — убит 14 марта 1943 года у деревни Крестьянская Гора на Жиздре; <b>Афанасий Леонович</b> (1897) — пропал без вести.</li>
+  <li>Возможные братья Стефана Егоровича: <b>Иван Егорович Гумненко</b> (8 июня 1921, Заложский сельсовет) — лейтенант; <b>Михаил Егорович Гуменков</b> (1914, Заложский сельсовет, село Под[сосное?]) — младший сержант. <span class="tag maybe">по отчеству</span></li>
+  <li>Из Подсосны и Чушаев: Александр Леонович (1921) — гвардии старший сержант, воевал до мая 1945 года; Фёдор Ефимович (1912) — капитан, умер от ран в Германии в марте 1945 года; Степан Григорьевич (1912) — погиб в немецком плену; Григорий Ефимович (1901), Ефим Иванович (1917), Андрей Никитович (1926), Алексей Спиридонович (1927) и другие.</li>
+</ul>
+<p><b>Ветка в Сибири.</b> В 1899 году крестьяне Невзучья (Лебедевы, Багузы и другие) просили разрешения переселиться в Томскую губернию. <a href="#source-12">[12]</a> Гумненковы из соседней Подсосны тоже ушли за Урал: в 1915 году раненым записан Трифон Ефремович Гумненко из «Енисейской губ., Канского округа, Анцирской вол., д. Александровка» <a href="#source-11">[11]</a>, а уроженец «д. Подсосная Оршанский уезд» Степан Гаврилович Гумненко (1879), пчеловод колхоза в деревне Северо-Александровка Канского района, был расстрелян в Канске 10 августа 1938 года. <a href="#source-10">[10]</a> Родство этой ветви со Стефаном Егоровичем не установлено.</p>
+
+<h2 id="documents">Документы в изображениях</h2>
+<p>Под каждой вырезкой — ссылка на полный лист. Красное выделение строки — от сайта «Память народа».</p>
+<h3 class="docs-group">Документы военкоматов об учёте потерь, 1944–1947</h3>
+<figure class="doc" id="doc-stepan"><a class="lb doc-crop" href="artifacts/A-0006_row13_crop.png" data-cap="Документ, уточняющий потери, № 13 — Рачковский Степан Павлович"><img src="artifacts/A-0006_row13_crop.png" alt="Строка рукописного списка: Рачковский Степан Павлович, 1905, д. Трубинина, жена Татьяна Ивановна" loading="lazy"></a><figcaption><b>Документ Сенненского военкомата, уточняющий потери, № 13.</b> «Рачковский Степан Павлович, рядовой, 1905… Сенненский р-н, Ходчанский с/с, д. Трубинина… призван Сенненским РВК Витебской обл. в июне 1941 г. Связь прекращена с дня мобилизации… жена — Рачковская Татьяна Ивановна… к-з „Чыр. Зорка“».<span class="doc-links"><a class="lb" href="artifacts/full/A-0006_pamyat_Rachkovsky_SP_utochnenie_list9.png" data-cap="Лист целиком">Лист целиком</a> · <a href="https://pamyat-naroda.ru/heroes/memorial-chelovek_dopolnitelnoe_donesenie64355158/" target="_blank" rel="noopener">«Память народа»</a> · <span class="doc-ref">ЦАМО</span></span></figcaption></figure>
+<figure class="doc" id="doc-egor"><a class="lb doc-crop" href="artifacts/A-0008_row9_crop.png" data-cap="Документ, уточняющий потери, № 9 — Рачковский Егор Павлович"><img src="artifacts/A-0008_row9_crop.png" alt="Строка рукописного списка: Рачковский Егор Павлович, 1911, д. Соино, жена Акулина Филипповна" loading="lazy"></a><figcaption><b>Документ Сенненского военкомата, уточняющий потери, № 9.</b> «Рачковский Егор Павлович… 1911… Ходчанский с/с, д. Соино… призван по мобилизации Сенненским РВК… в 1941. Связь прекратилась с дня мобилизации… жена Рачковская Акулина Филипповна… к-з Чыр. Зорка».<span class="doc-links"><a class="lb" href="artifacts/full/A-0008_pamyat_Rachkovsky_EP_utochnenie.png" data-cap="Лист целиком">Лист целиком</a> · <a href="https://pamyat-naroda.ru/heroes/memorial-chelovek_dopolnitelnoe_donesenie70731204/" target="_blank" rel="noopener">«Память народа»</a> · <span class="doc-ref">ЦАМО</span></span></figcaption></figure>
+<figure class="doc" id="doc-gumnenkov"><a class="lb doc-crop" href="artifacts/A-0007_row87_crop.png" data-cap="Именной список Руднянского РВК, № 87 — Гумненков Стефан Егорович"><img src="artifacts/A-0007_row87_crop.png" alt="Строка рукописного списка: Гумненков Стефан Егорович, 1912, д. Невзучье, жена Евдокия Андреевна" loading="lazy"></a><figcaption><b>Именной список безвозвратных потерь, учтённых Руднянским райвоенкоматом Смоленской области, 1947 год, № 87.</b> «Гумненков Стефан Егорович… 1912, д. Невзучье… Руднянским РВК в 1941 г.… считать пропавшим без вести в декабре 1941 г.… жена Гумненкова Евд. Андр., д. Невзучье».<span class="doc-links"><a class="lb" href="artifacts/full/A-0007_pamyat_Gumnenkov_SE_Rudnya_spisok.png" data-cap="Лист целиком">Лист целиком</a> · <a href="https://pamyat-naroda.ru/heroes/person-hero108209158/" target="_blank" rel="noopener">«Память народа»</a> · <span class="doc-ref">ЦАМО</span></span></figcaption></figure>
+<h3 class="docs-group">Книга «Памяць. Сенненскі раён», 2003</h3>
+<figure class="doc" id="doc-p462"><a class="lb doc-crop doc-crop-card" href="artifacts/A-0001_pamiac_p462_Soino.png" data-cap="«Памяць. Сенненскі раён», с. 462 — деревня Соино"><img src="artifacts/A-0001_pamiac_p462_Soino.png" alt="Страница книги памяти со списком погибших и пропавших воинов деревни Соино" loading="lazy"></a><figcaption><b>С. 462, деревня Соино.</b> «Рачкоўскі Сцяпан Паўлавіч, рад., прапаў без вестак у жніўні 1944. Рачкоўскі Ягор Паўлавіч, н. у 1911, рад., прапаў без вестак у верасні 1944».<span class="doc-links"><a class="lb" href="artifacts/A-0001_pamiac_p461_Pavlovichi.png" data-cap="С. 461 — деревня Павловичи">С. 461 — Павловичи</a></span></figcaption></figure>
+<figure class="doc" id="doc-p601"><a class="lb doc-crop doc-crop-card" href="artifacts/A-0001_pamiac_p601_Pavlovichi_village.png" data-cap="«Памяць. Сенненскі раён», с. 601 — Павловичи"><img src="artifacts/A-0001_pamiac_p601_Pavlovichi_village.png" alt="Статья о деревне Павловичи в книге памяти" loading="lazy"></a><figcaption><b>С. 601, статья о деревне Павловичи.</b> Владельцы начала XX века и сселение 1939 года: «У 1939 г. у вёску сселены жыхары населеных пунктаў Галашоўка, Курмялёва, Логвінава, Торбіна, Хабаціна, Ляды, Марозаўка».</figcaption></figure>
+<figure class="doc" id="doc-p119"><a class="lb doc-crop doc-crop-card" href="artifacts/A-0002_pamiac_p119_Rachkovsky_SG.png" data-cap="«Памяць. Сенненскі раён», с. 119"><img src="artifacts/A-0002_pamiac_p119_Rachkovsky_SG.png" alt="Список репрессированных: Рачковский Степан Гаврилович" loading="lazy"></a><figcaption><b>С. 119, «Вернутыя імёны».</b> «Рачкоўскі Сцяпан Гаўрылавіч, н. у 1908 у в. Трубіна, калгаснік, асуджаны ў 1932, рэабілітаваны ў 1962».</figcaption></figure>
+
+<h2 id="chronology">Хронология</h2>
+<div class="table-wrap" tabindex="0"><table>
+<thead><tr><th>Дата</th><th>Событие</th><th>Основание</th></tr></thead>
+<tbody>
+<tr><td class="d" data-label="">1758</td><td data-label="Событие">Павловичи впервые упоминаются как центр имения (Витебское воеводство Великого княжества Литовского)</td><td class="t" data-label="Основание"><a href="#source-13">[13]</a></td></tr>
+<tr><td class="d" data-label="">1866–1869</td><td data-label="Событие">Крестьяне Павловичей, Соина и Перекопова выкупают землю у помещика Антона Бржостовского</td><td class="t" data-label="Основание"><a href="#source-7">[7]</a></td></tr>
+<tr><td class="d" data-label="">1899</td><td data-label="Событие">Крестьяне Невзучья просят о переселении в Томскую губернию</td><td class="t" data-label="Основание"><a href="#source-12">[12]</a></td></tr>
+<tr><td class="d" data-label="">1905</td><td data-label="Событие">Родился Степан Павлович Рачковский (деревня Трубинино)</td><td class="t" data-label="Основание"><a href="#doc-stepan">документ 1944–46</a></td></tr>
+<tr><td class="d" data-label="">1910</td><td data-label="Событие">Павловичи — 11 дворов, Трубинино — 5, Соино — 26 (Ходчанский приход); Невзучье — 26 дворов (Любавичский приход)</td><td class="t" data-label="Основание"><a href="#source-6">[6]</a></td></tr>
+<tr><td class="d" data-label="">1912</td><td data-label="Событие">Родился Стефан Егорович Гумненков (деревня Невзучье)</td><td class="t" data-label="Основание"><a href="#doc-gumnenkov">список 1947</a></td></tr>
+<tr><td class="d" data-label="">1919</td><td data-label="Событие">Любавичская волость с Невзучьем передана в Смоленский уезд</td><td class="t" data-label="Основание"><a href="#source-13">[13]</a></td></tr>
+<tr><td class="d" data-label="">1924</td><td data-label="Событие">Образован Павловичский сельсовет; в октябре центр перенесён в Ходцы</td><td class="t" data-label="Основание"><a href="#source-13">[13]</a></td></tr>
+<tr><td class="d" data-label="">1930–1933</td><td data-label="Событие">Раскулачивание: осуждены Ксения Афанасьевна (1930) и Максим Феодосович (1933) Рачковские; Степан Гаврилович — по книге памяти осуждён в 1932 году</td><td class="t" data-label="Основание"><a href="#source-16">[16]</a>, <a href="#source-4">[4]</a></td></tr>
+<tr><td class="d" data-label="">15.03.1938</td><td data-label="Событие">По «Открытому списку» расстрелян Степан Гаврилович Рачковский</td><td class="t" data-label="Основание"><a href="#source-5">[5]</a></td></tr>
+<tr><td class="d" data-label="">1939</td><td data-label="Событие">Окрестные хутора, в том числе Торбино и Курмелево, сселены в Павловичи</td><td class="t" data-label="Основание"><a href="#source-4">[4]</a></td></tr>
+<tr><td class="d" data-label="">VI.1941</td><td data-label="Событие">Степан и Егор Павловичи Рачковские призваны Сенненским военкоматом; Стефан Гумненков — Руднянским</td><td class="t" data-label="Основание"><a href="#doc-stepan">[1]</a>, <a href="#doc-egor">[2]</a>, <a href="#doc-gumnenkov">[3]</a></td></tr>
+<tr><td class="d" data-label="">XII.1941</td><td data-label="Событие">Последнее время, когда о Стефане Гумненкове что-то знали: «считать пропавшим без вести в декабре 1941 г.»</td><td class="t" data-label="Основание"><a href="#doc-gumnenkov">список 1947</a></td></tr>
+<tr><td class="d" data-label="">20.07.1941 – 29.09.1943</td><td data-label="Событие">Оккупация Руднянского района</td><td class="t" data-label="Основание"><a href="#source-9">[9]</a></td></tr>
+<tr><td class="d" data-label="">1944</td><td data-label="Событие">После освобождения района Степан и Егор Рачковские признаны пропавшими без вести; их жёны живут в колхозе «Чырвоная зорька»</td><td class="t" data-label="Основание"><a href="#doc-stepan">[1]</a>, <a href="#doc-egor">[2]</a></td></tr>
+<tr><td class="d" data-label="">1947</td><td data-label="Событие">Руднянский военкомат вносит Стефана Гумненкова в список потерь; жена Евдокия Андреевна — в Невзучье</td><td class="t" data-label="Основание"><a href="#doc-gumnenkov">[3]</a></td></tr>
+</tbody></table></div>
+
+<h2 id="next">Что дальше</h2>
+<p><b>Вопросы к семье</b> — любые ответы помогут выбрать между версиями:</p>
+<ul>
+  <li>Что рассказывали о деде Степане: погиб или пропал на войне — или был арестован?</li>
+  <li>Как звали мать Николая Степановича (не Татьяна Ивановна?) и мать Веры Стефановны (не Евдокия Андреевна?)</li>
+  <li>Примерные годы и места рождения Николая и Веры, где они познакомились.</li>
+</ul>
+<p><b>Архивы</b> — здесь лежат документы, которые решат главные вопросы:</p>
+<ul>
+  <li><b>Зональный государственный архив в г. Орше, фонд 902</b> «Ходцевский сельский Совет» (с 1946 года): похозяйственные книги — состав двора Татьяны Ивановны Рачковской с детьми и годами рождения. Там же фонд 940 — колхоз «Чырвоная зорька» (1948–1950).</li>
+  <li><b>Национальный исторический архив Беларуси (Минск)</b>: метрическая книга Ходчанской Покровской церкви о родившихся за 1858–1865 годы (ф. 2301, оп. 2, д. 253) и сводные тома метрик Сенненского уезда 1860–1899 годов (ф. 2301, оп. 2, дд. 188–224); ревизия 1858 года Сенненского уезда (ф. 2151, оп. 1, дд. 172а–172т); дело о выкупе земли у Бржостовского (ф. 2014, оп. 1, д. 523); для Невзучья — сводные тома метрик Оршанского уезда 1871–1885 годов (ф. 2301, оп. 2, дд. 31–35, 145–148) и ревизия 1857–1858 годов (ф. 2151, оп. 1, дд. 146, 148, 149, 158).</li>
+  <li><b>Смоленская область</b>: похозяйственные книги Заложского (Шубковского) сельсовета Руднянского района; метрические книги Любавичских церквей после 1919 года (Государственный архив Смоленской области, ф. 48).</li>
+  <li><b>Управление КГБ по Витебской области</b> — дело Степана Гавриловича Рачковского; его выдают родственникам.</li>
+  <li><b>Отделы ЗАГС</b> — записи о рождении Николая и Веры, об их браке.</li>
+</ul>
+<h3>Проверено, но не нашлось</h3>
+<ul>
+  <li>FamilySearch: метрических книг Могилёвской и Смоленской православных консисторий в каталоге нет.</li>
+  <li>Николай Степанович и Вера Стефановна — в военных, партизанских и мемориальных базах не найдены.</li>
+  <li>Гумненковых нет ни среди мирных жертв оккупации Руднянского района, ни в базах репрессированных (кроме сибирской ветви).</li>
+</ul>
+
+<h2 id="sources">Источники</h2>
+<ol class="src">
+<li id="source-1"><b>Документ, уточняющий потери: Рачковский Степан Павлович</b>, Сенненский РВК. ЦАМО; «Память народа», <a href="https://pamyat-naroda.ru/heroes/memorial-chelovek_dopolnitelnoe_donesenie64355158/" target="_blank" rel="noopener">запись</a>.</li>
+<li id="source-2"><b>Документ, уточняющий потери: Рачковский Егор Павлович</b>, Сенненский РВК. ЦАМО; «Память народа», <a href="https://pamyat-naroda.ru/heroes/memorial-chelovek_dopolnitelnoe_donesenie70731204/" target="_blank" rel="noopener">запись</a>.</li>
+<li id="source-3"><b>Именной список безвозвратных потерь Руднянского РВК Смоленской области</b> (1947), № 87: Гумненков Стефан Егорович. ЦАМО; «Память народа», <a href="https://pamyat-naroda.ru/heroes/person-hero108209158/" target="_blank" rel="noopener">карточка</a>; Книга памяти Смоленской области.</li>
+<li id="source-4"><b>Памяць: Гіст.-дакум. хроніка Сенненскага раёна.</b> Мінск, 2003: с. 119 («Вернутыя імёны»), 320–323 (участники войны), 461–462 (Павловичи, Соино), 596 (Латыголь), 601 (Павловичи).</li>
+<li id="source-5"><b>«Открытый список»</b>: <a href="https://ru.openlist.wiki/Рачковский_Степан_Гаврилович_(1908)" target="_blank" rel="noopener">Рачковский Степан Гаврилович (1908)</a>; основание — УКГБ по Витебской области.</li>
+<li id="source-6"><b>Список населённых мест Могилёвской губернии</b> (1910): Латыговская волость Сенненского уезда и Любавичская волость Оршанского уезда. Транскрипция на форуме ВГД, <a href="https://forum.vgd.ru/4409/117803/90.htm" target="_blank" rel="noopener">тема</a>.</li>
+<li id="source-7"><b>Описи архивов на fond-vopis-sprava.com</b>: <a href="https://fond-vopis-sprava.com/en/places/14918" target="_blank" rel="noopener">карточка деревни Павловичи</a> — ЗГА в г. Орше, ф. 902, 940; НИАБ, ф. 2014, оп. 1, д. 523 (выкуп земли у Бржостовского, 1866–1869); НИАБ, ф. 2001, оп. 1, д. 403 (Ходчанская Покровская церковь, 1847).</li>
+<li id="source-8"><b>«Память народа»</b>: все записи по фамилии Гумненков (Руднянский район).</li>
+<li id="source-9"><b>Книга памяти мирных жителей Смоленской области, Руднянский район</b>. Администрация Смоленской области.</li>
+<li id="source-10"><b>«Открытый список»</b>: <a href="https://ru.openlist.wiki/Гумненко_Степан_Гаврилович_(1879)" target="_blank" rel="noopener">Гумненко Степан Гаврилович (1879)</a>; Архив УФСБ по Красноярскому краю, дело П-10663.</li>
+<li id="source-11"><b>Картотека Первой мировой войны</b> (РГВИА), портал <a href="https://gwar.mil.ru/" target="_blank" rel="noopener">«Память героев Великой войны»</a>: Рачковские Сенненского уезда; Гумненко Трифон Ефремович и Гумненков Пётр Ефремович (Енисейская губерния).</li>
+<li id="source-12"><b>НИАБ, ф. 2014, оп. 1, д. 2155</b>: дело по ходатайству крестьян деревни Невзучье Лебедева М., Багузы И. и других о переселении в Томскую губернию (1899).</li>
+<li id="source-13"><b>Справочные статьи</b>: «Паўлавічы (Сенненскі раён)», «Ходцаўскі сельсавет» (белорусская Википедия); «Невзучье» (русская Википедия); <a href="https://www.radzima.net/ru/miejsce/nevzuchje.html" target="_blank" rel="noopener">radzima.net</a>.</li>
+<li id="source-15"><b>«Партизаны Беларуси»</b>: <a href="https://partizany.by/partisans/139702/" target="_blank" rel="noopener">Рачковский Николай Герасимович</a>; <a href="https://partizany.by/partisans/180123/" target="_blank" rel="noopener">Рачковский Пётр Филиппович</a>.</li>
+<li id="source-16"><b>«Открытый список»</b>: <a href="https://ru.openlist.wiki/Рачковский_Максим_Феодосович_(1898)" target="_blank" rel="noopener">Рачковский Максим Феодосович (1898)</a>; <a href="https://ru.openlist.wiki/Рачковская_Ксения_Афанасьевна_(1908)" target="_blank" rel="noopener">Рачковская Ксения Афанасьевна (1908)</a>.</li>
+<li id="source-14"><b>Сведения семьи</b>: имена родителей и дедов, деревни Павловичи и Невзучье.</li>
+</ol>
+</main>
+<footer class="report-footer"><span>Дело «Рачковские и Гумненковы», промежуточный отчёт, ноябрь 2026</span><a href="#top">К началу ↑</a></footer>
+</div>
+<div id="lb" class="lb-overlay" hidden role="dialog" aria-modal="true" aria-label="Просмотр изображения">
+  <div class="lb-bar"><span id="lb-cap"></span><button type="button" id="lb-zoom">Крупнее</button><button type="button" id="lb-close">Закрыть</button></div>
+  <div class="lb-stage" id="lb-stage"><img id="lb-img" alt=""></div>
+</div>
+<script>
+(function(){var o=document.getElementById('lb'),img=document.getElementById('lb-img'),st=document.getElementById('lb-stage'),z=document.getElementById('lb-zoom'),c=document.getElementById('lb-cap'),x=document.getElementById('lb-close'),last=null;
+function open(a){last=a;img.src=a.getAttribute('href');img.alt=a.getAttribute('data-cap')||'';c.textContent=a.getAttribute('data-cap')||'';st.classList.remove('zoom');z.textContent='Крупнее';o.hidden=false;document.documentElement.style.overflow='hidden';x.focus();}
+function close(){o.hidden=true;img.removeAttribute('src');document.documentElement.style.overflow='';if(last)last.focus();}
+function zoom(){var on=st.classList.toggle('zoom');z.textContent=on?'Вписать':'Крупнее';}
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a.lb');if(a){e.preventDefault();open(a);}});
+x.addEventListener('click',close);z.addEventListener('click',zoom);img.addEventListener('click',zoom);
+o.addEventListener('click',function(e){if(e.target===o||e.target===st)close();});
+document.addEventListener('keydown',function(e){if(!o.hidden&&e.key==='Escape')close();});})();
+</script>
+</body>
+</html>
